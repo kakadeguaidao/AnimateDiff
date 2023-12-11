@@ -714,7 +714,7 @@ def convert_ldm_bert_checkpoint(checkpoint, config):
 
 
 def convert_ldm_clip_checkpoint(checkpoint):
-    text_model = CLIPTextModel.from_pretrained("openai/clip-vit-large-patch14")
+    text_model = CLIPTextModel.from_pretrained("/home/wangkengxue/.cache/huggingface/hub/models--openai--clip-vit-large-patch14",local_files_only=True)
     keys = list(checkpoint.keys())
 
     text_model_dict = {}
@@ -723,7 +723,7 @@ def convert_ldm_clip_checkpoint(checkpoint):
         if key.startswith("cond_stage_model.transformer"):
             text_model_dict[key[len("cond_stage_model.transformer.") :]] = checkpoint[key]
 
-    text_model.load_state_dict(text_model_dict)
+    text_model.load_state_dict(text_model_dict,strict=False)
 
     return text_model
 
